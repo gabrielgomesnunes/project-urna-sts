@@ -1,0 +1,8 @@
+package entidades;
+
+public class Users {
+	private long id;
+	private String cpf;
+	private String name;
+	
+}

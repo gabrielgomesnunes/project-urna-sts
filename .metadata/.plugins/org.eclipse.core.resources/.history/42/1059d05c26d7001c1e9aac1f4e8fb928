@@ -1,0 +1,25 @@
+package com.example.demo.entidade;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
+public class Voto {
+	@Column(nullable = false)
+	Candidato candidato;
+	@Column(nullable = false)
+	private String tipo;
+	
+	public Candidato getCandidato() {
+		return candidato;
+	}
+	public void setCandidato(Candidato candidato) {
+		this.candidato = candidato;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+}

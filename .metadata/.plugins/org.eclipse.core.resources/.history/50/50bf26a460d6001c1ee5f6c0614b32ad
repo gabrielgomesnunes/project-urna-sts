@@ -1,0 +1,23 @@
+package rest;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import database.RepositorioUsers;
+import entidades.User;
+import entidades.Users;
+
+public class UserRest {
+	@Autowired
+	private RepositorioUsers repositorio;
+	
+	public List<User> list(){
+		return repositorio.findAll();
+	}
+	
+	public void salvar(User user) {
+		
+	}
+	
+}

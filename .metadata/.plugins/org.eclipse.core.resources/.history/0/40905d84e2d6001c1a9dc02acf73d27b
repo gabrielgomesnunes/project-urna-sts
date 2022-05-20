@@ -1,0 +1,48 @@
+package rest;
+
+import java.util.List;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import database.RepositorioUsers;
+import entidades.User;
+
+@RestController
+@RequestMapping("/user")
+public class UserRest {
+    @Autowired
+    private RepositorioUsers repositorio;
+
+    @GetMapping
+    public List<User> listar(){
+        return repositorio.findAll();
+    }
+
+    @PostMapping
+    public void salvar(@RequestBody User user){
+        repositorio.save(user);
+    }
+
+    @PutMapping
+    public void alterar(@RequestBody User user){
+        if(user.getId() > 0)
+            repositorio.save(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void excluir(@PathVariable Long id){
+        repositorio.deleteById(id);
+    }
+}

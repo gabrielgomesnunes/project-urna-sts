@@ -1,0 +1,9 @@
+package database;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import entidades.Users;
+
+public interface RepositorioContato extends JpaRepository<Users, Long>{
+
+}

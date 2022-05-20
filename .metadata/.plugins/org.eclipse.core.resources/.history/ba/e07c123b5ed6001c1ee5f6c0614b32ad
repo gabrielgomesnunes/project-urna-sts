@@ -1,0 +1,15 @@
+package rest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import antlr.collections.List;
+import database.RepositorioUsers;
+
+public class UsersRest {
+	@Autowired
+	private RepositorioUsers repositorio;
+	
+	public List<Users> listar(){
+		
+	}
+}

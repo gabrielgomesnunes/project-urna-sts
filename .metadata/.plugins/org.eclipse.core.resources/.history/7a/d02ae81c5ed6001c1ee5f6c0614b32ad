@@ -1,0 +1,12 @@
+package rest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import database.RepositorioContato;
+
+public class UsersRest {
+	@Autowired
+	private RepositorioContato repositorio;
+	
+	public List<Users >
+}
