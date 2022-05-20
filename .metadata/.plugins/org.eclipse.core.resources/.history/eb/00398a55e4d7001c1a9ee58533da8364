@@ -1,0 +1,66 @@
+package com.example.demo;
+
+import java.util.List;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.apache.catalina.connector.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.database.RepositorioUsers;
+import com.example.demo.entidade.User;
+import com.example.demo.entidade.Voto;
+import com.example.demo.service.UserService;
+
+@SpringBootApplication
+@RestController
+@RequestMapping("/user")
+public class UserRest {
+	
+    @Autowired
+    private RepositorioUsers userDAO;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private Response response;
+    
+    @GetMapping
+    public List<User> listar(){
+        return userDAO.findAll();
+    }
+    
+    @PostMapping
+    public ResponseEntity<User> salvar(@RequestBody User user){
+    	boolean userVerify = this.userService.verificadorCPF(user);
+    	if(!userVerify) {
+    		User save = userDAO.save(user);
+    		return ResponseEntity.ok(save);
+    	}else {
+    		ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
+    	}
+    }
+    
+    @PostMapping
+    public void votar(@RequestBody User user, @RequestBody Voto voto){
+    	this.userService.votar(user, voto);
+    }
+
+    @PutMapping
+    public void alterar(@RequestBody User user){
+        if(user.getId() > 0)
+        	userDAO.save(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void excluir(@PathVariable Long id){
+    	userDAO.deleteById(id);
+    }
+}

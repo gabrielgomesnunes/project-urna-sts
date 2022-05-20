@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.util.List;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.database.RepositorioUsers;
 import com.example.demo.entidade.User;
-import com.example.demo.entidade.Voto;
 import com.example.demo.service.UserService;
+
+import java.util.Optional;
 
 @SpringBootApplication
 @RestController
@@ -28,30 +31,25 @@ public class UserRest {
     private RepositorioUsers userDAO;
     @Autowired
     private UserService userService;
-    @Autowired
-    private Response response;
     
     @GetMapping
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<User> listar(){
         return userDAO.findAll();
     }
     
     @PostMapping
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity<User> salvar(@RequestBody User user){
     	boolean userVerify = this.userService.verificadorCPF(user);
     	if(!userVerify) {
     		User save = userDAO.save(user);
-    		return new ResponseEntity<User>("Salvo", save, HttpStatus.CREATED);
+    		return new ResponseEntity<User>(save, HttpStatus.OK);
     	}else {
-    		
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	}
     }
     
-    @PostMapping
-    public void votar(@RequestBody User user, @RequestBody Voto voto){
-    	this.userService.votar(user, voto);
-    }
-
     @PutMapping
     public void alterar(@RequestBody User user){
         if(user.getId() > 0)
@@ -59,7 +57,14 @@ public class UserRest {
     }
 
     @DeleteMapping("/{id}")
-    public void excluir(@PathVariable Long id){
-    	userDAO.deleteById(id);
+    @RequestMapping(value = "/excluir/{id}", method= RequestMethod.DELETE)
+    public ResponseEntity<Object> excluir(@PathVariable(value = "id") Long id){
+    	Optional<User> user = userDAO.findById(id);
+    	if(user.isPresent()){
+    		userDAO.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+        	return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

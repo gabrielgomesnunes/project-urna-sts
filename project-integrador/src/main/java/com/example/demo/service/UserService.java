@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.example.demo.database.RepositorioCandidato;
 import com.example.demo.database.RepositorioUsers;
 import com.example.demo.entidade.User;
-import com.example.demo.entidade.Voto;
 
 import antlr.collections.List;
 
@@ -31,7 +30,4 @@ public class UserService {
 		return cpfExist;
 	}
 	
-	public void votar(User user, Voto voto) {
-		
-	}
 }

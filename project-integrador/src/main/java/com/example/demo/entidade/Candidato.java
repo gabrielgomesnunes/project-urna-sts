@@ -14,20 +14,36 @@ public class Candidato {
 	@Column(nullable = false)
 	private String name;
 	@Column(nullable = false)
-	private int numero;
+	private String numero;
 	@Column(nullable = false)
 	private String cargo;
+	@Column(nullable = false)
+	private String cpf;
+	@Column(nullable = false)
+	private int role=999;
 	
+	public int getRole() {
+		return role;
+	}
+	public void setRole(int role) {
+		this.role = role;
+	}
+	public String getCpf() {
+		return cpf;
+	}
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 	public String getCargo() {
 		return cargo;
 	}
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 	public long getId() {

@@ -16,13 +16,13 @@ public class User {
 	@Column(nullable = false)
 	private String name;
 	@Column(nullable = false)
-	private Voto voto;
+	private int role=520;
 	
-	public Voto getVoto() {
-		return voto;
+	public int getRole() {
+		return role;
 	}
-	public void setVoto(Voto voto) {
-		this.voto = voto;
+	public void setRole(int role) {
+		this.role = role;
 	}
 	public long getId() {
 		return id;
